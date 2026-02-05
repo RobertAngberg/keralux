@@ -1,65 +1,112 @@
+import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "KeraLux - Hårfibrer som döljer håravfall | Från 299 kr",
+  description:
+    "KeraLux hårfibrer hjälper dig som lider av håravfall eller tunt hår att få ett tjockare och tätare hår på sekunder. Keratin-baserade fibrer för naturligt resultat.",
+  alternates: {
+    canonical: "https://keralux.se",
+  },
+};
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <>
+      {/* Hero - Mobile */}
+      <Image
+        src="/hero-mobile.jpg"
+        alt="Keralux hero"
+        width={768}
+        height={1024}
+        className="w-full h-auto md:hidden"
+        priority
+      />
+      {/* Hero - Desktop */}
+      <Image
+        src="/hero-desktop.jpg"
+        alt="Keralux hero"
+        width={1920}
+        height={1080}
+        className="w-full h-auto hidden md:block"
+        priority
+      />
+
+      {/* Intro text */}
+      <section className="container mx-auto px-6 py-12 md:py-16">
+        <div className="max-w-3xl mx-auto text-center">
+          <p className="text-lg md:text-xl leading-relaxed text-zinc-600">
+            KeraLux hårfibrer hjälper den som lider av håravfall eller allmänt tunt hår att få ett
+            tjockare och tätare hår på ett snabbt och enkelt sätt.
+          </p>
+          <p className="mt-6 text-lg md:text-xl leading-relaxed text-zinc-600">
+            De mikroskopiska fibrerna fäster sig på dina hårstrån, även mycket tunna hårstrån, och
+            får omedelbart håret att se tjockare och fylligare ut på ett naturtroget sätt. Ämnet som
+            fibrerna består av är keratin, samma ämne som riktigt hår består av.
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </section>
+
+      {/* Hårfiber images - 1x4 mobile, 2x2 desktop */}
+      <section className="container mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+        <Image
+          src="/hårfiber-front-1.jpg"
+          alt="KeraLux hårfibrer"
+          width={960}
+          height={960}
+          className="w-full h-auto rounded-2xl"
+        />
+        <Image
+          src="/hårfiber-front-2.jpg"
+          alt="KeraLux hårfibrer"
+          width={960}
+          height={960}
+          className="w-full h-auto rounded-2xl"
+        />
+        <Image
+          src="/hårfiber-front-3.jpg"
+          alt="KeraLux hårfibrer"
+          width={960}
+          height={960}
+          className="w-full h-auto rounded-2xl"
+        />
+        <Image
+          src="/hårfiber-front-4.jpg"
+          alt="KeraLux hårfibrer"
+          width={960}
+          height={960}
+          className="w-full h-auto rounded-2xl"
+        />
+      </section>
+
+      {/* More info text */}
+      <section className="container mx-auto px-6 py-12 md:py-16">
+        <div className="max-w-3xl mx-auto text-center">
+          <p className="text-lg md:text-xl leading-relaxed text-zinc-600">
+            Det är billigt och enkelt att dölja tunt hår och håravfall. En burk på 28g täcker två
+            månaders dagligt användande, och ofta så räcker en burk betydligt längre än så.
+          </p>
+          <p className="mt-6 text-lg md:text-xl leading-relaxed text-zinc-600">
+            Om du mot förmodan inte skulle vara nöjd med produkten så kan du kontakta oss för att
+            begära dina pengar tillbaka. KeraLux är hårfibrer av allra högsta kvalitét och vi är
+            säkra på att du kommer att bli nöjd med ditt köp.
+          </p>
         </div>
-      </main>
-    </div>
+      </section>
+
+      {/* Se produkter - link to store */}
+      <div className="container mx-auto px-6 pb-12 md:pb-16 flex justify-center">
+        <Link href="/butik" className="block">
+          <Image
+            src="/se-produkter.jpg"
+            alt="Se produkter"
+            width={300}
+            height={150}
+            className="h-auto hover:opacity-90 transition-opacity"
+          />
+        </Link>
+      </div>
+    </>
   );
 }

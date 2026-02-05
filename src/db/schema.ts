@@ -14,10 +14,12 @@ import { relations } from "drizzle-orm";
 // Enums
 export const orderStatusEnum = pgEnum("order_status", [
   "pending",
-  "paid",
   "shipped",
-  "delivered",
-  "cancelled",
+  "reminder1",
+  "reminder2",
+  "inkasso",
+  "debt",
+  "completed",
 ]);
 
 // Products
@@ -29,9 +31,6 @@ export const products = pgTable("products", {
   price: decimal("price", { precision: 10, scale: 2 }).notNull(),
   compareAtPrice: decimal("compare_at_price", { precision: 10, scale: 2 }),
   image: varchar("image", { length: 500 }),
-  images: text("images"), // JSON array of image URLs
-  stock: integer("stock").default(0),
-  isActive: boolean("is_active").default(true),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
@@ -46,29 +45,8 @@ export const productVariants = pgTable("product_variants", {
   color: varchar("color", { length: 100 }),
   sku: varchar("sku", { length: 100 }),
   price: decimal("price", { precision: 10, scale: 2 }),
-  stock: integer("stock").default(0),
   image: varchar("image", { length: 500 }),
   createdAt: timestamp("created_at").defaultNow(),
-});
-
-// Categories
-export const categories = pgTable("categories", {
-  id: serial("id").primaryKey(),
-  name: varchar("name", { length: 255 }).notNull(),
-  slug: varchar("slug", { length: 255 }).notNull().unique(),
-  description: text("description"),
-  image: varchar("image", { length: 500 }),
-  createdAt: timestamp("created_at").defaultNow(),
-});
-
-// Product to Category relation (many-to-many)
-export const productCategories = pgTable("product_categories", {
-  productId: integer("product_id")
-    .references(() => products.id, { onDelete: "cascade" })
-    .notNull(),
-  categoryId: integer("category_id")
-    .references(() => categories.id, { onDelete: "cascade" })
-    .notNull(),
 });
 
 // Customers
@@ -122,10 +100,20 @@ export const orderItems = pgTable("order_items", {
   quantity: integer("quantity").notNull(),
 });
 
+// Order activity log
+export const orderActivities = pgTable("order_activities", {
+  id: serial("id").primaryKey(),
+  orderId: integer("order_id")
+    .references(() => orders.id, { onDelete: "cascade" })
+    .notNull(),
+  action: varchar("action", { length: 50 }).notNull(), // status_change, email_sent, deleted
+  details: varchar("details", { length: 255 }), // e.g. "pending → shipped"
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
 // Relations
 export const productsRelations = relations(products, ({ many }) => ({
   variants: many(productVariants),
-  categories: many(productCategories),
 }));
 
 export const productVariantsRelations = relations(productVariants, ({ one }) => ({
@@ -135,27 +123,13 @@ export const productVariantsRelations = relations(productVariants, ({ one }) => 
   }),
 }));
 
-export const categoriesRelations = relations(categories, ({ many }) => ({
-  products: many(productCategories),
-}));
-
-export const productCategoriesRelations = relations(productCategories, ({ one }) => ({
-  product: one(products, {
-    fields: [productCategories.productId],
-    references: [products.id],
-  }),
-  category: one(categories, {
-    fields: [productCategories.categoryId],
-    references: [categories.id],
-  }),
-}));
-
 export const ordersRelations = relations(orders, ({ one, many }) => ({
   customer: one(customers, {
     fields: [orders.customerId],
     references: [customers.id],
   }),
   items: many(orderItems),
+  activities: many(orderActivities),
 }));
 
 export const orderItemsRelations = relations(orderItems, ({ one }) => ({
@@ -170,6 +144,13 @@ export const orderItemsRelations = relations(orderItems, ({ one }) => ({
   variant: one(productVariants, {
     fields: [orderItems.variantId],
     references: [productVariants.id],
+  }),
+}));
+
+export const orderActivitiesRelations = relations(orderActivities, ({ one }) => ({
+  order: one(orders, {
+    fields: [orderActivities.orderId],
+    references: [orders.id],
   }),
 }));
 
