@@ -3,11 +3,11 @@ import { OrderList } from "./order-list";
 import { getOrders, getTotalOrderCount } from "./actions/get-orders";
 import Link from "next/link";
 
+// Ingen caching - alltid färsk data
+export const dynamic = "force-dynamic";
+
 export default async function AdminPage() {
-  const [initialOrders, totalCount] = await Promise.all([
-    getOrders(0, 50),
-    getTotalOrderCount(),
-  ]);
+  const [initialOrders, totalCount] = await Promise.all([getOrders(0, 50), getTotalOrderCount()]);
 
   return (
     <div className="container mx-auto px-6 py-8 max-w-4xl">
