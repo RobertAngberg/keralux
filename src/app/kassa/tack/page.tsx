@@ -17,13 +17,19 @@ function TackContent() {
   const orderId = searchParams.get("order_id");
 
   useEffect(() => {
+    console.log("Tack page loaded, gtag:", typeof window.gtag, "total:", total);
+
     if (typeof window !== "undefined" && window.gtag && total) {
+      console.log("Sending conversion to Google Ads...");
       window.gtag("event", "conversion", {
         send_to: "AW-1046599495/TF-4COOGvPMbEMeuh_MD",
         value: parseFloat(total),
         currency: "SEK",
         transaction_id: orderId || "",
       });
+      console.log("Conversion sent!");
+    } else {
+      console.log("gtag not available or no total");
     }
   }, [total, orderId]);
 
