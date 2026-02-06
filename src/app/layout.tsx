@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import { Nav } from "@/components/nav";
 import { CartProvider } from "@/lib/cart-context";
@@ -42,6 +43,21 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="sv">
+      <head>
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=AW-1046599495"
+          strategy="afterInteractive"
+        />
+        <Script id="gtag-init" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'AW-1046599495');
+            gtag('config', 'G-D99WQL446F');
+          `}
+        </Script>
+      </head>
       <body className={`${montserrat.variable} font-sans antialiased flex flex-col min-h-screen`}>
         <CartProvider>
           <Nav />
