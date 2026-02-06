@@ -1,7 +1,32 @@
+"use client";
+
 import Link from "next/link";
 import { Check } from "lucide-react";
+import { useSearchParams } from "next/navigation";
+import { useEffect, Suspense } from "react";
 
-export default function TackPage() {
+declare global {
+  interface Window {
+    gtag?: (...args: unknown[]) => void;
+  }
+}
+
+function TackContent() {
+  const searchParams = useSearchParams();
+  const total = searchParams.get("total");
+  const orderId = searchParams.get("order_id");
+
+  useEffect(() => {
+    if (typeof window !== "undefined" && window.gtag && total) {
+      window.gtag("event", "conversion", {
+        send_to: "AW-1046599495/TF-4COOGvPMbEMeuh_MD",
+        value: parseFloat(total),
+        currency: "SEK",
+        transaction_id: orderId || "",
+      });
+    }
+  }, [total, orderId]);
+
   return (
     <div className="container mx-auto px-6 py-6 md:py-10 text-center max-w-2xl">
       <div className="flex justify-center mb-6">
@@ -29,5 +54,13 @@ export default function TackPage() {
         Fortsätt handla
       </Link>
     </div>
+  );
+}
+
+export default function TackPage() {
+  return (
+    <Suspense fallback={<div className="container mx-auto px-6 py-6 md:py-10 text-center">Laddar...</div>}>
+      <TackContent />
+    </Suspense>
   );
 }

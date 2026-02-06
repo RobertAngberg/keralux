@@ -32,7 +32,7 @@ export default function KassaPage() {
 
       if (result.success) {
         clearCart();
-        router.push("/kassa/tack");
+        router.push(`/kassa/tack?total=${totalPrice}&order_id=${result.orderId}`);
       } else {
         alert("Något gick fel. Försök igen.");
         setIsSubmitting(false);

@@ -67,7 +67,7 @@ export async function createOrder(data: CheckoutData) {
       console.error("Email error:", emailError);
     }
 
-    return { success: true, orderNumber };
+    return { success: true, orderNumber, orderId: order.id };
   } catch (error) {
     console.error("Create order error:", error);
     return { success: false, error: "Kunde inte skapa order" };
