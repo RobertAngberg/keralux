@@ -1,7 +1,8 @@
 import { MetadataRoute } from "next";
-import { products } from "@/lib/products";
+import { getAllSlugs } from "@/db/products";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const slugs = await getAllSlugs();
   const baseUrl = "https://keralux.se";
 
   // Static pages
@@ -45,8 +46,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
   ];
 
   // Product pages
-  const productPages = products.map((product) => ({
-    url: `${baseUrl}/butik/${product.slug}`,
+  const productPages = slugs.map((slug) => ({
+    url: `${baseUrl}/butik/${slug}`,
     lastModified: new Date(),
     changeFrequency: "weekly" as const,
     priority: 0.8,

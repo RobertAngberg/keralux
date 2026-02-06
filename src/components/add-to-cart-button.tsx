@@ -9,7 +9,7 @@ interface AddToCartButtonProps {
     slug: string;
     name: string;
     price: number;
-    image: string;
+    image: string | null;
   };
   size?: "small" | "large";
 }
@@ -23,7 +23,7 @@ export function AddToCartButton({ product, size = "small" }: AddToCartButtonProp
       slug: product.slug,
       name: product.name,
       price: product.price,
-      image: product.image,
+      image: product.image || "",
     });
     setAdded(true);
     setTimeout(() => setAdded(false), 2000);

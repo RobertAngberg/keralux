@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { products } from "@/lib/products";
+import { getProductBySlug, getAllSlugs } from "@/db/products";
 import { AddToCartButton } from "@/components/add-to-cart-button";
 
 interface ProductPageProps {
@@ -10,7 +10,7 @@ interface ProductPageProps {
 
 export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const product = products.find((p) => p.slug === slug);
+  const product = await getProductBySlug(slug);
 
   if (!product) {
     return {
@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
       siteName: "KeraLux",
       images: [
         {
-          url: product.image,
+          url: product.image || "",
           width: 500,
           height: 500,
           alt: product.name,
@@ -41,15 +41,14 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
   };
 }
 
-export function generateStaticParams() {
-  return products.map((product) => ({
-    slug: product.slug,
-  }));
+export async function generateStaticParams() {
+  const slugs = await getAllSlugs();
+  return slugs.map((slug) => ({ slug }));
 }
 
 export default async function ProductPage({ params }: ProductPageProps) {
   const { slug } = await params;
-  const product = products.find((p) => p.slug === slug);
+  const product = await getProductBySlug(slug);
 
   if (!product) {
     notFound();
@@ -60,7 +59,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
       <div className="grid md:grid-cols-2 gap-10">
         <div>
           <Image
-            src={product.image}
+            src={product.image || ""}
             alt={product.name}
             width={500}
             height={500}
@@ -70,10 +69,10 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
         <div className="flex flex-col">
           <h1 className="text-3xl font-bold text-zinc-900">{product.name}</h1>
-          <p className="mt-2 text-2xl text-zinc-900">{product.price} kr</p>
+          <p className="mt-2 text-2xl text-zinc-900">{Number(product.price)} kr</p>
           <p className="mt-6 text-zinc-600 leading-relaxed">{product.description}</p>
 
-          <AddToCartButton product={product} size="large" />
+          <AddToCartButton product={{ ...product, price: Number(product.price) }} size="large" />
         </div>
       </div>
     </div>

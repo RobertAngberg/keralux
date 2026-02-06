@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { products } from "@/lib/products";
+import { getProducts } from "@/db/products";
 import { AddToCartButton } from "@/components/add-to-cart-button";
 
 export const metadata: Metadata = {
@@ -19,7 +19,8 @@ export const metadata: Metadata = {
   },
 };
 
-export default function ButikPage() {
+export default async function ButikPage() {
+  const products = await getProducts();
   return (
     <div className="container mx-auto px-6 py-6 md:py-10 max-w-5xl">
       <h1 className="text-3xl md:text-4xl font-bold text-center mb-10 text-zinc-600">Butik</h1>
@@ -29,7 +30,7 @@ export default function ButikPage() {
           <div key={product.slug} className="flex flex-col items-center">
             <Link href={`/butik/${product.slug}`} className="group">
               <Image
-                src={product.image}
+                src={product.image || ""}
                 alt={product.name}
                 width={230}
                 height={150}
@@ -38,8 +39,8 @@ export default function ButikPage() {
             </Link>
             <div className="mt-4 text-center">
               <h2 className="text-lg font-medium text-zinc-600">{product.name}</h2>
-              <p className="mt-1 text-zinc-500">{product.price} kr</p>
-              <AddToCartButton product={product} />
+              <p className="mt-1 text-zinc-500">{Number(product.price)} kr</p>
+              <AddToCartButton product={{ ...product, price: Number(product.price) }} />
             </div>
           </div>
         ))}
