@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useCart } from "@/lib/cart-context";
+import { useCart } from "@/hooks/use-cart";
 import { Minus, Plus, Trash2 } from "lucide-react";
 
 export default function VarukorgPage() {

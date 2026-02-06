@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ShoppingCart, Menu, X } from "lucide-react";
-import { useCart } from "@/lib/cart-context";
+import { useCart } from "@/hooks/use-cart";
 
 const navLinks = [
   { href: "/butik", label: "Butik" },
