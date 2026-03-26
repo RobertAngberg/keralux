@@ -11,6 +11,7 @@ const navLinks = [
   { href: "/fore-efter", label: "Före / efter" },
   { href: "/faq", label: "Frågor & svar" },
   { href: "/kopvillkor", label: "Köpvillkor" },
+  { href: "/blogg", label: "Blogg" },
   { href: "/kontakt", label: "Kontakt" },
 ];
 
