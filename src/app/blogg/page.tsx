@@ -3,6 +3,7 @@ import { db } from "@/db";
 import { articles } from "@/db/schema";
 import { eq, desc } from "drizzle-orm";
 import Link from "next/link";
+import Image from "next/image";
 
 export const dynamic = "force-dynamic";
 
@@ -29,12 +30,24 @@ export default async function BloggPage() {
       {publishedArticles.length === 0 ? (
         <p className="text-center text-zinc-400 py-16">Inga artiklar publicerade ännu.</p>
       ) : (
-        <div className="space-y-8">
+        <div className="space-y-10">
           {publishedArticles.map((article) => (
             <article
               key={article.id}
-              className="border-b border-zinc-200 pb-8 last:border-0"
+              className="border-b border-zinc-200 pb-10 last:border-0"
             >
+              {article.image && (
+                <Link href={`/blogg/${article.slug}`}>
+                  <div className="relative w-full h-52 mb-4 rounded-lg overflow-hidden">
+                    <Image
+                      src={article.image}
+                      alt={article.title}
+                      fill
+                      className="object-cover hover:scale-105 transition-transform duration-300"
+                    />
+                  </div>
+                </Link>
+              )}
               <time className="text-xs text-zinc-400 uppercase tracking-wide">
                 {article.createdAt
                   ? new Date(article.createdAt).toLocaleDateString("sv-SE", {

@@ -165,6 +165,7 @@ export const articles = pgTable("articles", {
   slug: varchar("slug", { length: 500 }).notNull().unique(),
   content: text("content"),
   excerpt: text("excerpt"),
+  image: varchar("image", { length: 500 }),
   published: boolean("published").default(false),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),

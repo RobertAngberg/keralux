@@ -4,6 +4,7 @@ import { articles } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { marked } from "marked";
 
 export const dynamic = "force-dynamic";
@@ -55,6 +56,17 @@ export default async function ArtikelPage({ params }: Props) {
       </Link>
 
       <article>
+        {article.image && (
+          <div className="relative w-full h-64 md:h-80 mb-8 rounded-xl overflow-hidden">
+            <Image
+              src={article.image}
+              alt={article.title}
+              fill
+              className="object-cover"
+              priority
+            />
+          </div>
+        )}
         <header className="mb-8">
           <time className="text-xs text-zinc-400 uppercase tracking-wide">
             {article.createdAt
