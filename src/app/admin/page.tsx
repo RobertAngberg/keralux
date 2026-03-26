@@ -18,6 +18,12 @@ export default async function AdminPage() {
         </div>
         <div className="flex gap-2">
           <Link
+            href="/admin/artiklar"
+            className="px-4 py-2 text-sm font-medium rounded-md border border-zinc-400 bg-white text-zinc-700 shadow hover:bg-zinc-50 hover:border-zinc-500 transition-colors"
+          >
+            Artiklar
+          </Link>
+          <Link
             href="/admin/stats"
             className="px-4 py-2 text-sm font-medium rounded-md border border-zinc-400 bg-white text-zinc-700 shadow hover:bg-zinc-50 hover:border-zinc-500 transition-colors"
           >

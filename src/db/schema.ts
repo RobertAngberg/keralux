@@ -157,3 +157,15 @@ export const orderActivitiesRelations = relations(orderActivities, ({ one }) => 
 export const customersRelations = relations(customers, ({ many }) => ({
   orders: many(orders),
 }));
+
+// Articles (Blog CMS)
+export const articles = pgTable("articles", {
+  id: serial("id").primaryKey(),
+  title: varchar("title", { length: 500 }).notNull(),
+  slug: varchar("slug", { length: 500 }).notNull().unique(),
+  content: text("content"),
+  excerpt: text("excerpt"),
+  published: boolean("published").default(false),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
